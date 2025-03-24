@@ -8,7 +8,9 @@ export const Footer = () => {
           <div>
             <div className="flex items-center space-x-2 mb-4">
               <GraduationCap className="h-6 w-6 text-yellow-500" />
-              <span className="text-xl font-bold text-yellow-500">职业导航</span>
+              <span className="text-xl font-bold text-yellow-500">
+                杰圆职场教育
+              </span>
             </div>
             <p className="text-sm">
               专业的职业发展咨询服务，助力你实现职业理想
