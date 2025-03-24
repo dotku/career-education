@@ -5,7 +5,8 @@ import {
   ArrowRight,
   CheckCircle2,
   Trophy,
-} from 'lucide-react';
+} from "lucide-react";
+import { SuccessStories } from "./components/SuccessStories";
 
 function App() {
   return (
@@ -111,20 +112,22 @@ function App() {
         </div>
       </section>
 
+      <SuccessStories />
+
       {/* Why Choose Us */}
-      <section className="py-20 bg-yellow-50">
+      <section className="py-20 bg-white">
         <div className="container mx-auto px-6">
           <h2 className="text-3xl font-bold text-center mb-16 text-yellow-900">
             为什么选择我们
           </h2>
           <div className="grid md:grid-cols-2 gap-8">
             {[
-              '专业的职业规划顾问团队',
-              '个性化的求职策略制定',
-              '丰富的企业资源网络',
-              '持续的职业发展跟踪',
-              '灵活的咨询时间安排',
-              '优质的售后服务保障',
+              "专业的职业规划顾问团队",
+              "个性化的求职策略制定",
+              "丰富的企业资源网络",
+              "持续的职业发展跟踪",
+              "灵活的咨询时间安排",
+              "优质的售后服务保障",
             ].map((item, index) => (
               <div key={index} className="flex items-center space-x-4">
                 <CheckCircle2 className="h-6 w-6 text-yellow-600 flex-shrink-0" />
@@ -164,13 +167,8 @@ function App() {
             </div>
             <div>
               <h3 className="text-white font-semibold mb-4">联系我们</h3>
-              <p className="text-sm">电话：400-888-8888</p>
-              <p className="text-sm">邮箱：contact@zhiyedaohang.com</p>
-            </div>
-            <div>
-              <h3 className="text-white font-semibold mb-4">关注我们</h3>
-              <p className="text-sm">微信公众号：职业导航</p>
-              <p className="text-sm">微博：@职业导航官方</p>
+              <p className="text-sm">电话：17318011997</p>
+              <p className="text-sm">微信：HELENLAN998</p>
             </div>
             <div>
               <h3 className="text-white font-semibold mb-4">工作时间</h3>
@@ -179,7 +177,7 @@ function App() {
             </div>
           </div>
           <div className="border-t border-gray-800 mt-12 pt-8 text-center text-sm">
-            <p>© 2024 职业导航. 保留所有权利</p>
+            <p> &copy;2025 杰圆职场教育. 保留所有权利</p>
           </div>
         </div>
       </footer>
