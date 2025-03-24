@@ -26,7 +26,7 @@ export const SuccessStories = () => {
   ];
 
   return (
-    <section className="py-20 bg-yellow-50">
+    <section className="py-20 bg-yellow-50" id="success-stories">
       <div className="container mx-auto px-6">
         <h2 className="text-3xl font-bold text-center mb-16 text-yellow-900">
           成功案例
