@@ -1,7 +1,7 @@
 import { VercelRequest, VercelResponse } from "@vercel/node";
 import OpenAI from "openai";
-import { promises as fs } from 'fs';
-import path from 'path';
+import { promises as fs } from "fs";
+import path from "path";
 
 const client = new OpenAI({
   apiKey: process.env.XAI_API_KEY,
@@ -18,9 +18,9 @@ export default async function handler(
 
   try {
     const { messages } = request.body;
-    const webMdPath = path.join(process.cwd(), 'api/data/web.md');
-    const content = await fs.readFile(webMdPath, 'utf-8');
-    
+    const webMdPath = path.join(process.cwd(), "README.md");
+    const content = await fs.readFile(webMdPath, "utf-8");
+
     const completion = await client.chat.completions.create({
       model: "grok-2-latest",
       messages: [
