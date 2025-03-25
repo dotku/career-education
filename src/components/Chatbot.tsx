@@ -12,6 +12,7 @@ export const Chatbot = () => {
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const chatContainerRef = useRef<HTMLDivElement>(null);
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -20,6 +21,18 @@ export const Chatbot = () => {
   useEffect(() => {
     scrollToBottom();
   }, [messages]);
+
+  // Prevent body scroll when chat is open on mobile
+  useEffect(() => {
+    if (isOpen && window.innerWidth < 640) { // Only for mobile
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, [isOpen]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -63,75 +76,131 @@ export const Chatbot = () => {
   };
 
   return (
-    <div className="fixed bottom-4 right-4 z-50">
-      {/* Chat Button */}
-      <button
-        onClick={() => setIsOpen(!isOpen)}
-        className="bg-yellow-600 text-white p-4 rounded-full shadow-lg hover:bg-yellow-700 transition-colors duration-200"
-      >
-        {isOpen ? <X size={24} /> : <MessageCircle size={24} />}
-      </button>
-
-      {/* Chat Window */}
+    <>
+      {/* Backdrop for mobile */}
       {isOpen && (
-        <div className="absolute bottom-16 right-0 w-96 h-[500px] bg-white rounded-lg shadow-xl flex flex-col">
-          {/* Header */}
-          <div className="bg-yellow-600 text-white p-4 rounded-t-lg">
-            <h3 className="font-semibold">职业规划助手</h3>
-          </div>
+        <div 
+          className="fixed inset-0 bg-black bg-opacity-50 z-40 sm:hidden"
+          onClick={() => setIsOpen(false)}
+        />
+      )}
 
-          {/* Messages */}
-          <div className="flex-1 overflow-y-auto p-4 space-y-4">
-            {messages.map((message, index) => (
-              <div
-                key={index}
-                className={`flex ${
-                  message.role === 'user' ? 'justify-end' : 'justify-start'
-                }`}
-              >
-                <div
-                  className={`max-w-[80%] p-3 rounded-lg ${
-                    message.role === 'user'
-                      ? 'bg-yellow-600 text-white'
-                      : 'bg-gray-100 text-gray-800'
-                  }`}
-                >
-                  {message.content}
-                </div>
-              </div>
-            ))}
-            {isLoading && (
-              <div className="flex justify-start">
-                <div className="bg-gray-100 text-gray-800 p-3 rounded-lg">
-                  正在思考...
-                </div>
-              </div>
-            )}
-            <div ref={messagesEndRef} />
-          </div>
+      <div className="fixed bottom-0 sm:bottom-4 right-0 sm:right-4 z-50">
+        {/* Chat Button */}
+        <button
+          onClick={() => setIsOpen(!isOpen)}
+          className="fixed bottom-4 right-4 sm:static bg-yellow-600 text-white p-3 sm:p-4 rounded-full shadow-lg hover:bg-yellow-700 transition-colors duration-200 flex items-center justify-center"
+          aria-label={isOpen ? "关闭聊天" : "打开聊天"}
+        >
+          {isOpen ? (
+            <X size={20} className="sm:w-6 sm:h-6" />
+          ) : (
+            <MessageCircle size={20} className="sm:w-6 sm:h-6" />
+          )}
+        </button>
 
-          {/* Input Form */}
-          <form onSubmit={handleSubmit} className="p-4 border-t">
-            <div className="flex space-x-2">
-              <input
-                type="text"
-                value={input}
-                onChange={(e) => setInput(e.target.value)}
-                placeholder="输入你的问题..."
-                className="flex-1 p-2 border rounded-lg focus:outline-none focus:border-yellow-600"
-                disabled={isLoading}
-              />
-              <button
-                type="submit"
-                disabled={isLoading}
-                className="bg-yellow-600 text-white p-2 rounded-lg hover:bg-yellow-700 transition-colors duration-200 disabled:bg-gray-400"
+        {/* Chat Window */}
+        {isOpen && (
+          <div 
+            ref={chatContainerRef}
+            className="fixed sm:absolute inset-0 sm:inset-auto sm:bottom-16 sm:right-0 w-full sm:w-[400px] min-h-screen sm:min-h-0 sm:h-[600px] bg-white sm:rounded-lg shadow-xl flex flex-col"
+            style={{ height: 'calc(100dvh)', maxHeight: 'calc(100vh - 100px)' }}
+          >
+            {/* Header */}
+            <div className="bg-yellow-600 text-white px-4 py-3 sm:p-4 sm:rounded-t-lg flex items-center justify-between sticky top-0 z-10">
+              <div className="flex items-center space-x-2">
+                <MessageCircle size={20} className="hidden sm:block" />
+                <h3 className="font-semibold text-base">职业规划助手</h3>
+              </div>
+              <button 
+                onClick={() => setIsOpen(false)}
+                className="sm:hover:bg-yellow-700 p-1.5 rounded-full transition-colors"
+                aria-label="关闭聊天"
               >
-                <Send size={20} />
+                <X size={20} />
               </button>
             </div>
-          </form>
-        </div>
-      )}
-    </div>
+
+            {/* Messages */}
+            <div className="flex-1 overflow-y-auto">
+              {messages.length === 0 ? (
+                <div className="p-6 text-center space-y-4">
+                  <div className="text-gray-500 text-sm sm:text-base">
+                    您好！我是您的职业规划助手。请问有什么可以帮您？
+                  </div>
+                  <div className="flex flex-col gap-2 text-sm">
+                    <button
+                      onClick={() => setInput("请问如何准备面试？")}
+                      className="px-4 py-2 rounded-full border border-gray-200 hover:border-yellow-600 hover:bg-yellow-50 transition-colors text-gray-600 hover:text-yellow-700"
+                    >
+                      请问如何准备面试？
+                    </button>
+                    <button
+                      onClick={() => setInput("我想了解职业规划服务")}
+                      className="px-4 py-2 rounded-full border border-gray-200 hover:border-yellow-600 hover:bg-yellow-50 transition-colors text-gray-600 hover:text-yellow-700"
+                    >
+                      我想了解职业规划服务
+                    </button>
+                  </div>
+                </div>
+              ) : (
+                <div className="px-3 py-4 sm:p-4 space-y-3 sm:space-y-4">
+                  {messages.map((message, index) => (
+                    <div
+                      key={index}
+                      className={`flex ${
+                        message.role === 'user' ? 'justify-end' : 'justify-start'
+                      } items-start`}
+                    >
+                      <div
+                        className={`max-w-[85%] px-3.5 py-2 sm:p-3 rounded-2xl whitespace-pre-wrap text-sm sm:text-base leading-relaxed ${
+                          message.role === 'user'
+                            ? 'bg-yellow-600 text-white rounded-br-sm'
+                            : 'bg-gray-100 text-gray-800 rounded-bl-sm'
+                        }`}
+                      >
+                        {message.content}
+                      </div>
+                    </div>
+                  ))}
+                  {isLoading && (
+                    <div className="flex justify-start items-start">
+                      <div className="bg-gray-100 text-gray-800 px-3.5 py-2 sm:p-3 rounded-2xl rounded-bl-sm text-sm sm:text-base animate-pulse">
+                        正在思考...
+                      </div>
+                    </div>
+                  )}
+                  <div ref={messagesEndRef} className="h-4" />
+                </div>
+              )}
+            </div>
+
+            {/* Input Form */}
+            <div className="border-t bg-white sm:rounded-b-lg sticky bottom-0">
+              <form onSubmit={handleSubmit} className="p-3 sm:p-4">
+                <div className="flex space-x-2 items-center">
+                  <input
+                    type="text"
+                    value={input}
+                    onChange={(e) => setInput(e.target.value)}
+                    placeholder="输入您的问题..."
+                    className="flex-1 px-3.5 py-2 text-sm sm:text-base border rounded-full focus:outline-none focus:ring-2 focus:ring-yellow-600 focus:border-transparent"
+                    disabled={isLoading}
+                  />
+                  <button
+                    type="submit"
+                    disabled={isLoading || !input.trim()}
+                    className="bg-yellow-600 text-white p-2.5 rounded-full hover:bg-yellow-700 transition-colors duration-200 disabled:opacity-50 flex items-center justify-center flex-shrink-0"
+                    aria-label="发送消息"
+                  >
+                    <Send size={18} className="sm:w-5 sm:h-5" />
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        )}
+      </div>
+    </>
   );
 };
