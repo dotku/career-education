@@ -3,6 +3,8 @@ import { SuccessStories } from "./components/SuccessStories";
 import { Hero } from "./components/Hero";
 import { Services } from "./components/Services";
 import { WhyChooseUs } from "./components/WhyChooseUs";
+import { CTA } from "./components/CTA";
+import { Chatbot } from "./components/Chatbot";
 
 function App() {
   return (
@@ -34,18 +36,8 @@ function App() {
 
       <SuccessStories />
       <WhyChooseUs />
-
-      {/* CTA Section */}
-      <section className="py-20 bg-gradient-to-r from-yellow-600 to-yellow-700 text-white">
-        <div className="container mx-auto px-6 text-center">
-          <h2 className="text-3xl font-bold mb-8">
-            准备好开启你的职业新篇章了吗？
-          </h2>
-          <button className="bg-white text-yellow-700 px-8 py-3 rounded-full font-semibold hover:bg-yellow-50 transition duration-300">
-            预约免费咨询
-          </button>
-        </div>
-      </section>
+      <CTA />
+      <Chatbot />
 
       {/* Footer */}
       <footer className="bg-gray-900 text-gray-300 py-12" id="contact">
