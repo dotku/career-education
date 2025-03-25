@@ -20,6 +20,9 @@ export const Footer = () => {
             <h3 className="text-white font-semibold mb-4">联系我们</h3>
             <p className="text-sm">电话：17318011997</p>
             <p className="text-sm">微信：HELENLAN998</p>
+            <p className="text-sm">
+              地址：深圳市福田区福华一路 98 号卓越大厦 1903
+            </p>
           </div>
           <div>
             <h3 className="text-white font-semibold mb-4">工作时间</h3>
