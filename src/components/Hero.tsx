@@ -68,9 +68,11 @@ export const Hero = () => {
             <p className="text-xl mb-8">
               专业的职业规划指导，帮助你在竞争激烈的职场中脱颖而出
             </p>
-            <button className="bg-white text-yellow-700 px-8 py-3 rounded-full font-semibold hover:bg-yellow-50 transition duration-300 flex items-center">
-              立即咨询 <ArrowRight className="ml-2 h-5 w-5" />
-            </button>
+            <a href="#contact" className="inline-block">
+              <button className="bg-white text-yellow-700 px-8 py-3 rounded-full font-semibold hover:bg-yellow-50 transition duration-300 flex items-center">
+                立即咨询 <ArrowRight className="ml-2 h-5 w-5" />
+              </button>
+            </a>
           </div>
         </div>
       </header>
