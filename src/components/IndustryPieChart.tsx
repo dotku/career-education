@@ -55,15 +55,20 @@ export const IndustryPieChart: React.FC = () => {
 
   const options: ChartOptions<'pie'> = {
     responsive: true,
+    maintainAspectRatio: false,
     plugins: {
       legend: {
-        position: 'right' as const,
+        position: 'bottom' as const,
         labels: {
+          padding: 12,
+          usePointStyle: true,
+          pointStyle: 'circle',
           font: {
-            size: 12,
-            family: "'Hiragino Sans GB', 'Microsoft YaHei', sans-serif"
+            size: 11,
+            family: "'Helvetica', 'Arial', sans-serif"
           },
-          padding: 15
+          boxWidth: 8,
+          boxHeight: 8
         }
       },
       tooltip: {
@@ -75,22 +80,24 @@ export const IndustryPieChart: React.FC = () => {
           }
         },
         titleFont: {
-          family: "'Hiragino Sans GB', 'Microsoft YaHei', sans-serif"
+          family: "'Helvetica', 'Arial', sans-serif"
         },
         bodyFont: {
-          family: "'Hiragino Sans GB', 'Microsoft YaHei', sans-serif"
+          family: "'Helvetica', 'Arial', sans-serif"
         }
       }
     }
   };
 
   return (
-    <div className="w-full max-w-3xl mx-auto bg-white rounded-lg shadow-lg p-6">
-      <h3 className="text-xl font-semibold mb-4 text-yellow-900 text-center">
-        2024年悉尼各行业经济占比
-      </h3>
-      <div className="aspect-[4/3] w-full">
-        <Pie data={data} options={options} />
+    <div className="w-full max-w-3xl mx-auto">
+      <div className="bg-white rounded-lg shadow-lg p-4 sm:p-6">
+        <h3 className="text-base sm:text-lg font-semibold mb-2 sm:mb-4 text-yellow-900 text-center">
+          2024年悉尼各行业经济占比
+        </h3>
+        <div className="h-[280px] sm:h-[360px]">
+          <Pie data={data} options={options} />
+        </div>
       </div>
     </div>
   );
