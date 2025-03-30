@@ -1,8 +1,7 @@
 {
   "rewrites": [
-    {
-      "source": "/(.*)",
-      "destination": "/index.html"
-    }
-  ]
+    { "source": "/(.*)", "destination": "/" }
+  ],
+  "devCommand": "npm run dev",
+  "framework": "vite"
 }
