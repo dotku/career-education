@@ -9,6 +9,7 @@ import { Footer } from "./components/Footer";
 import { Stats } from "./components/Stats";
 import { Contact } from "./components/Contact";
 import SydneyIndustryReport from "./pages/sydney-industry-report";
+import { Analytics } from "@vercel/analytics/react";
 
 function HomePage() {
   return (
@@ -28,15 +29,18 @@ function HomePage() {
 
 function App() {
   return (
-    <Router>
-      <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route
-          path="/sydney-industry-report"
-          element={<SydneyIndustryReport />}
-        />
-      </Routes>
-    </Router>
+    <>
+      <Analytics />
+      <Router>
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route
+            path="/sydney-industry-report"
+            element={<SydneyIndustryReport />}
+          />
+        </Routes>
+      </Router>
+    </>
   );
 }
 
