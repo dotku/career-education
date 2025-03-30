@@ -1,4 +1,4 @@
-import { GraduationCap } from "lucide-react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { Hero } from "./components/Hero";
 import { Services } from "./components/Services";
 import { SuccessStories } from "./components/SuccessStories";
@@ -8,8 +8,9 @@ import { Chatbot } from "./components/Chatbot";
 import { Footer } from "./components/Footer";
 import { Stats } from "./components/Stats";
 import { Contact } from "./components/Contact";
+import SydneyIndustryReport from "./pages/sydney-industry-report";
 
-function App() {
+function HomePage() {
   return (
     <div className="min-h-screen">
       <Hero />
@@ -22,6 +23,20 @@ function App() {
       <Chatbot />
       <Footer />
     </div>
+  );
+}
+
+function App() {
+  return (
+    <Router>
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route
+          path="/sydney-industry-report"
+          element={<SydneyIndustryReport />}
+        />
+      </Routes>
+    </Router>
   );
 }
 
