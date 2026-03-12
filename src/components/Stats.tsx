@@ -1,21 +1,79 @@
+import { useEffect, useRef, useState } from "react";
+
+interface StatItem {
+  value: string;
+  numericValue: number;
+  suffix: string;
+  label: string;
+}
+
+const useCountUp = (target: number, duration = 2000, shouldStart: boolean) => {
+  const [count, setCount] = useState(0);
+
+  useEffect(() => {
+    if (!shouldStart) return;
+    let start = 0;
+    const increment = target / (duration / 16);
+    const timer = setInterval(() => {
+      start += increment;
+      if (start >= target) {
+        setCount(target);
+        clearInterval(timer);
+      } else {
+        setCount(Math.floor(start));
+      }
+    }, 16);
+    return () => clearInterval(timer);
+  }, [target, duration, shouldStart]);
+
+  return count;
+};
+
+const StatCard = ({ stat, shouldAnimate }: { stat: StatItem; shouldAnimate: boolean }) => {
+  const count = useCountUp(stat.numericValue, 2000, shouldAnimate);
+
+  return (
+    <div className="text-center px-4 py-8">
+      <div className="text-4xl md:text-5xl font-bold text-yellow-600 mb-3 tabular-nums">
+        {shouldAnimate ? count : 0}
+        {stat.suffix}
+      </div>
+      <div className="w-10 h-1 bg-yellow-400 rounded-full mx-auto mb-3"></div>
+      <p className="text-gray-600 font-medium">{stat.label}</p>
+    </div>
+  );
+};
+
 export const Stats = () => {
-  const stats = [
-    { value: "98%", label: "客户满意度" },
-    { value: "500+", label: "成功案例" },
-    { value: "85%", label: "面试通过率" },
+  const sectionRef = useRef<HTMLElement>(null);
+  const [visible, setVisible] = useState(false);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setVisible(true);
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.3 }
+    );
+    if (sectionRef.current) observer.observe(sectionRef.current);
+    return () => observer.disconnect();
+  }, []);
+
+  const stats: StatItem[] = [
+    { value: "98%", numericValue: 98, suffix: "%", label: "客户满意度" },
+    { value: "500+", numericValue: 500, suffix: "+", label: "成功案例" },
+    { value: "85%", numericValue: 85, suffix: "%", label: "面试通过率" },
   ];
 
   return (
-    <section className="py-20 bg-white">
+    <section ref={sectionRef} className="py-16 md:py-20 bg-white">
       <div className="container mx-auto px-6">
-        <div className="grid md:grid-cols-3 gap-8 text-center">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-0 md:divide-x divide-yellow-200 max-w-4xl mx-auto">
           {stats.map((stat, index) => (
-            <div key={index}>
-              <div className="text-4xl font-bold text-yellow-600 mb-2">
-                {stat.value}
-              </div>
-              <p className="text-gray-600">{stat.label}</p>
-            </div>
+            <StatCard key={index} stat={stat} shouldAnimate={visible} />
           ))}
         </div>
       </div>

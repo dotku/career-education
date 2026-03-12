@@ -4,7 +4,8 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
+    "dev": "node api/dev-server.mjs & vite",
+    "dev:frontend": "vite",
     "vercel-dev": "vercel dev",
     "build": "tsc && vite build",
     "lint": "eslint .",
