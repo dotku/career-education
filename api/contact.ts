@@ -34,9 +34,9 @@ export default async function handler(
     return response.status(405).json({ error: "Method not allowed" });
   }
 
-  const { name, phone, message } = request.body;
+  const { name, email, phone, message } = request.body;
 
-  if (!name || !phone || !message) {
+  if (!name || !email || !phone || !message) {
     return response.status(400).json({ error: "Missing required fields" });
   }
 
@@ -47,11 +47,13 @@ export default async function handler(
         { email: "carrie.lan998@gmail.com", name: "Carrie" },
         { email: "weijingjaylin+careereducation@gmail.com", name: "Jay" },
       ],
+      replyTo: { email, name },
       subject: `新咨询预约: ${name}`,
       htmlContent: `
         <h2>新的咨询预约</h2>
         <table style="border-collapse:collapse;width:100%;max-width:500px">
           <tr><td style="padding:8px;font-weight:bold;border-bottom:1px solid #eee">姓名</td><td style="padding:8px;border-bottom:1px solid #eee">${name}</td></tr>
+          <tr><td style="padding:8px;font-weight:bold;border-bottom:1px solid #eee">邮箱</td><td style="padding:8px;border-bottom:1px solid #eee"><a href="mailto:${email}">${email}</a></td></tr>
           <tr><td style="padding:8px;font-weight:bold;border-bottom:1px solid #eee">电话</td><td style="padding:8px;border-bottom:1px solid #eee">${phone}</td></tr>
           <tr><td style="padding:8px;font-weight:bold">咨询内容</td><td style="padding:8px">${message}</td></tr>
         </table>

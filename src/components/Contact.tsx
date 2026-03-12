@@ -16,6 +16,7 @@ export const Contact = () => {
     const form = e.currentTarget;
     const formData = new FormData(form);
     const name = formData.get("name") as string;
+    const email = formData.get("email") as string;
     const phone = formData.get("phone") as string;
     const message = formData.get("message") as string;
 
@@ -23,7 +24,7 @@ export const Contact = () => {
       const res = await fetch("/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name, phone, message }),
+        body: JSON.stringify({ name, email, phone, message }),
       });
 
       if (!res.ok) throw new Error("Failed to send");
@@ -112,6 +113,24 @@ export const Contact = () => {
                   id="name"
                   name="name"
                   placeholder="请输入你的姓名"
+                  className="w-full px-4 py-2.5 border border-gray-200 rounded-xl focus:ring-2 focus:ring-yellow-500 focus:border-transparent transition-shadow outline-none"
+                  required
+                  disabled={isSubmitting}
+                />
+              </div>
+
+              <div>
+                <label
+                  htmlFor="email"
+                  className="block text-sm font-medium text-gray-700 mb-1.5"
+                >
+                  邮箱
+                </label>
+                <input
+                  type="email"
+                  id="email"
+                  name="email"
+                  placeholder="请输入你的邮箱地址"
                   className="w-full px-4 py-2.5 border border-gray-200 rounded-xl focus:ring-2 focus:ring-yellow-500 focus:border-transparent transition-shadow outline-none"
                   required
                   disabled={isSubmitting}

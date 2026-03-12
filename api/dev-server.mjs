@@ -30,14 +30,14 @@ const server = http.createServer(async (req, res) => {
     req.on("data", (chunk) => (body += chunk));
     req.on("end", async () => {
       try {
-        const { name, phone, message } = JSON.parse(body);
-        if (!name || !phone || !message) {
+        const { name, email, phone, message } = JSON.parse(body);
+        if (!name || !email || !phone || !message) {
           res.writeHead(400, { "Content-Type": "application/json" });
           return res.end(JSON.stringify({ error: "Missing required fields" }));
         }
 
         const { default: handler } = await import("./contact-handler.mjs");
-        const result = await handler(name, phone, message);
+        const result = await handler(name, email, phone, message);
         res.writeHead(result.status, { "Content-Type": "application/json" });
         res.end(JSON.stringify(result.body));
       } catch (err) {
