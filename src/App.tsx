@@ -9,6 +9,8 @@ import { Footer } from "./components/Footer";
 import { Stats } from "./components/Stats";
 import { Contact } from "./components/Contact";
 import SydneyIndustryReport from "./pages/sydney-industry-report";
+import SingaporeWorkVisaGuide from "./pages/singapore-work-visa-guide";
+import Cases from "./pages/cases";
 import { Analytics } from "@vercel/analytics/react";
 
 function HomePage() {
@@ -34,9 +36,14 @@ function App() {
       <Router>
         <Routes>
           <Route path="/" element={<HomePage />} />
+          <Route path="/cases" element={<Cases />} />
           <Route
             path="/sydney-industry-report"
             element={<SydneyIndustryReport />}
+          />
+          <Route
+            path="/singapore-work-visa-guide"
+            element={<SingaporeWorkVisaGuide />}
           />
         </Routes>
       </Router>
